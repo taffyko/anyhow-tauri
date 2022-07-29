@@ -1,3 +1,16 @@
+This is a fork of Anyhow that makes the `Error` type implement Serde's `Serialize` trait, so it can be used
+out-of-the-box for [error handling in Tauri commands](https://tauri.app/v1/guides/features/command/#error-handling). The
+serialized error has this shape:
+
+```
+{
+  errorChain: string[],
+  backtrace: string,
+}
+```
+
+Original readme follows:
+
 Anyhow&ensp;¯\\\_(°ペ)\_/¯
 ==========================
 

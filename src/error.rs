@@ -574,6 +574,26 @@ impl Drop for Error {
     }
 }
 
+impl serde::Serialize for Error {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[derive(serde::Serialize)]
+        #[serde(rename_all = "camelCase")]
+        struct ErrorInfo {
+            error_chain: Vec<String>,
+            backtrace: String,
+        }
+
+        ErrorInfo {
+            error_chain: self.chain().map(ToString::to_string).collect(),
+            backtrace: self.backtrace().to_string(),
+        }
+        .serialize(serializer)
+    }
+}
+
 struct ErrorVTable {
     object_drop: unsafe fn(Own<ErrorImpl>),
     object_ref: unsafe fn(Ref<ErrorImpl>) -> Ref<dyn StdError + Send + Sync + 'static>,
