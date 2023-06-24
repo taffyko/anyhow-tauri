@@ -597,11 +597,13 @@ impl serde::Serialize for Error {
         #[serde(rename_all = "camelCase")]
         struct ErrorInfo {
             error_chain: Vec<String>,
+            #[cfg(any(backtrace, feature = "backtrace"))]
             backtrace: String,
         }
 
         ErrorInfo {
             error_chain: self.chain().map(ToString::to_string).collect(),
+            #[cfg(any(backtrace, feature = "backtrace"))]
             backtrace: self.backtrace().to_string(),
         }
         .serialize(serializer)
