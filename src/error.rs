@@ -677,14 +677,14 @@ impl serde::Serialize for Error {
         #[derive(serde::Serialize)]
         #[serde(rename_all = "camelCase")]
         struct ErrorInfo {
-            error_chain: Vec<String>,
-            #[cfg(any(backtrace, feature = "backtrace"))]
+            error_chain: std::vec::Vec<std::string::String>,
+            #[cfg(feature = "backtrace")]
             backtrace: String,
         }
 
         ErrorInfo {
-            error_chain: self.chain().map(ToString::to_string).collect(),
-            #[cfg(any(backtrace, feature = "backtrace"))]
+            error_chain: self.chain().map(std::string::ToString::to_string).collect(),
+            #[cfg(feature = "backtrace")]
             backtrace: self.backtrace().to_string(),
         }
         .serialize(serializer)
