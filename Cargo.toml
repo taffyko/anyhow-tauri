@@ -1,6 +1,6 @@
 [package]
 name = "anyhow"
-version = "1.0.71" # remember to update html_root_url
+version = "1.0.95"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 categories = ["rust-patterns", "no-std"]
 description = "Flexible concrete Error type built on std::error::Error"
@@ -16,6 +16,10 @@ default = ["std"]
 std = []
 
 [dependencies]
+# On compilers older than 1.65, features=["backtrace"] may be used to enable
+# backtraces via the `backtrace` crate. This feature has no effect on 1.65+
+# besides bringing in an unused dependency, as `std::backtrace` is always
+# preferred.
 backtrace = { version = "0.3.51", optional = true }
 serde = { version = "1", features = ["derive"] }
 
@@ -23,7 +27,7 @@ serde = { version = "1", features = ["derive"] }
 futures = { version = "0.3", default-features = false }
 rustversion = "1.0.6"
 syn = { version = "2.0", features = ["full"] }
-thiserror = "1.0"
+thiserror = "2"
 trybuild = { version = "1.0.66", features = ["diff"] }
 
 [lib]
@@ -31,4 +35,4 @@ doc-scrape-examples = false
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
-rustdoc-args = ["--cfg", "doc_cfg"]
+rustdoc-args = ["--generate-link-to-definition"]
