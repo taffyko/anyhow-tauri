@@ -679,13 +679,13 @@ impl serde::Serialize for Error {
         struct ErrorInfo {
             error_chain: std::vec::Vec<std::string::String>,
             #[cfg(feature = "backtrace")]
-            backtrace: String,
+            backtrace: std::string::String,
         }
 
         ErrorInfo {
             error_chain: self.chain().map(std::string::ToString::to_string).collect(),
             #[cfg(feature = "backtrace")]
-            backtrace: self.backtrace().to_string(),
+            backtrace: std::format!("{}", self.backtrace()),
         }
         .serialize(serializer)
     }
